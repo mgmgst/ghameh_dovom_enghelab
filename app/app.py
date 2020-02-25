@@ -5,27 +5,27 @@ app = Flask(__name__)
 def hello_world():
     return '[+] server start running.!'
 
-@app.route('/index')
+@app.route('/index.html')
 def index_page():
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login.html')
 def login_page():
     return render_template('login.html')
 
-@app.route('/add')
+@app.route('/add.html')
 def add_page():
     return render_template('add.html')
 
-@app.route('/500')
+@app.route('/500.html')
 def e500_page():
     return render_template('500.html')
 
-@app.route('/401')
+@app.route('/401.html')
 def e401_page():
     return render_template('401.html')
 
-@app.route('/404')
+@app.route('/404.html')
 def e404_page():
     return render_template('404.html')            
 	
