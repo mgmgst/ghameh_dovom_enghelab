@@ -1,5 +1,0 @@
-see jadi sms project package and use it foe this project
-
-**flask for backend project use it (installed) just work on it for project
-
-**make changes on 000webhost.com for this site : login.html and index.html
