@@ -1,4 +1,4 @@
-from flask import Flask , render_template
+from flask import Flask , render_template,request
 app = Flask(__name__)
 
 @app.route('/')
@@ -9,9 +9,17 @@ def hello_world():
 def index_page():
     return render_template('index.html')
 
-@app.route('/login.html')
-def login_page():
-    return render_template('login.html')
+@app.route('/login.html',methods=["GET", "POST"])
+def login():
+    if request.method == 'POST':
+        username = request.form["username"]
+        password = request.form["Password"]
+        if username == 'mg' and password == '1234':
+            return render_template('index.html')
+        else:
+            return render_template('401.html')    
+    else:
+        return render_template('login.html')
 
 @app.route('/add.html')
 def add_page():
