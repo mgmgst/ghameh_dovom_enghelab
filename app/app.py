@@ -5,9 +5,12 @@ app = Flask(__name__)
 def hello_world():
     return '[+] server start running.!'
 
-@app.route('/index.html')
+@app.route('/index.html',methods=["GET", "POST"])
 def index_page():
-    return render_template('index.html')
+    if request.method == 'POST':
+        return render_template('add.html')
+    else:    
+        return render_template('index.html')
 
 @app.route('/login.html',methods=["GET", "POST"])
 def login():
@@ -21,9 +24,20 @@ def login():
     else:
         return render_template('login.html')
 
-@app.route('/add.html')
-def add_page():
-    return render_template('add.html')
+@app.route('/add.html',methods=["GET", "POST"])
+def add():
+    if request.method == 'POST':
+        name = request.form["name"]
+        titlew = request.form["titlew"]
+        message = request.form["message"]
+        print("[+] new work gotted ")
+        print("[+] writer is : %s" % name)
+        print("[+] work title is : %s" % titlew)
+        print("[+] work message is : %s" % message)
+        return render_template('index.html')
+
+    else:
+        return render_template('add.html')
 
 @app.route('/500.html')
 def e500_page():
