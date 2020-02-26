@@ -1,4 +1,5 @@
 from flask import Flask , render_template,request , redirect
+import config
 app = Flask(__name__)
 
 @app.route('/index.html')
@@ -10,7 +11,7 @@ def login():
     if request.method == 'POST':
         username = request.form["username"]
         password = request.form["Password"]
-        if username == 'mg' and password == '1234':
+        if check(username,password):
             return redirect('index.html')
         else:
             return redirect('401.html')    
@@ -46,3 +47,9 @@ def e404_page():
 	
 if __name__ == "__main__":
     app.run("0.0.0.0",5000,debug=True)
+
+def check(username,password):
+    res = False
+    if username == config.username and password == config.password:
+        res = True
+    return res    
