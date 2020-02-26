@@ -1,16 +1,9 @@
-from flask import Flask , render_template,request
+from flask import Flask , render_template,request , redirect
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return '[+] server start running.!'
-
-@app.route('/index.html',methods=["GET", "POST"])
-def index_page():
-    if request.method == 'POST':
-        return render_template('add.html')
-    else:    
-        return render_template('index.html')
+@app.route('/index.html')
+def index_page():    
+    return render_template('index.html')
 
 @app.route('/login.html',methods=["GET", "POST"])
 def login():
@@ -18,9 +11,9 @@ def login():
         username = request.form["username"]
         password = request.form["Password"]
         if username == 'mg' and password == '1234':
-            return render_template('index.html')
+            return redirect('index.html')
         else:
-            return render_template('401.html')    
+            return redirect('401.html')    
     else:
         return render_template('login.html')
 
@@ -34,7 +27,7 @@ def add():
         print("[+] writer is : %s" % name)
         print("[+] work title is : %s" % titlew)
         print("[+] work message is : %s" % message)
-        return render_template('index.html')
+        return redirect('index.html')
 
     else:
         return render_template('add.html')
