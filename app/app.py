@@ -1,6 +1,12 @@
-from flask import Flask , render_template,request , redirect
+from flask import Flask , render_template,request , redirect,jsonify
 import config , main
 app = Flask(__name__)
+
+@app.route("/ok")
+def sys_check():
+    '''this function tell that falsk server is ok and running!!'''
+    ret = {'status':'ok','message':'[+] flask server is running'}
+    return jsonify(ret) , 200
 
 @app.route('/index.html')
 def index_page():    
