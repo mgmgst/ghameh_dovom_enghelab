@@ -1,3 +1,5 @@
+#this is sample config file rename it to config.py and edit it acordingly
+
 usernamein = "{every username that you want}"
 passwordin = "{every password that you want}"
 
