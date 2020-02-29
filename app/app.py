@@ -1,5 +1,5 @@
-from flask import Flask , render_template,request , redirect,jsonify
-import config , main
+from flask import Flask , render_template,request , redirect,jsonify,flash,url_for
+import config
 app = Flask(__name__)
 
 @app.route("/ok")
@@ -8,48 +8,56 @@ def sys_check():
     ret = {'status':'ok','message':'[+] flask server is running'}
     return jsonify(ret) , 200
 
-@app.route('/index.html')
-def index_page():    
+@app.route('/index')
+def index():    
     return render_template('index.html')
 
-@app.route('/login.html',methods=["GET", "POST"])
+@app.route('/',methods=["GET", "POST"])
 def login():
+    '''this function return login page'''
+    error = None
     if request.method == 'POST':
         username = request.form["username"]
         password = request.form["Password"]
-        if main.check(username,password):
-            return redirect('index.html')
+        if check(username,password):
+            return redirect(url_for('index'))
         else:
-            return redirect('401.html')    
-    else:
-        return render_template('login.html')
+            error = '!!!یوزر نامعتبر!!!' 
+               
+    return render_template('login.html', error=error)
 
-@app.route('/add.html',methods=["GET", "POST"])
+@app.route('/add',methods=["GET", "POST"])
 def add():
     if request.method == 'POST':
         name = request.form["name"]
         titlew = request.form["titlew"]
         message = request.form["message"]
-        print("[+] new work gotted ")
-        print("[+] writer is : %s" % name)
-        print("[+] work title is : %s" % titlew)
-        print("[+] work message is : %s" % message)
-        return redirect('index.html')
+        #print("[+] new work gotted ")
+        #print("[+] writer is : %s" % name)
+        #print("[+] work title is : %s" % titlew)
+        #print("[+] work message is : %s" % message)
+        return redirect('index')
 
     else:
         return render_template('add.html')
 
-@app.route('/500.html')
+@app.route('/500')
 def e500_page():
     return render_template('500.html')
 
-@app.route('/401.html')
+@app.route('/401')
 def e401_page():
     return render_template('401.html')
 
-@app.route('/404.html')
+@app.route('/404')
 def e404_page():
-    return render_template('404.html')            
+    return render_template('404.html') 
+
+def check(username,password):
+    res = False
+    if username == config.usernamein and password == config.passwordin:
+        res = True
+    return res               
 	
 if __name__ == "__main__":
     app.run("0.0.0.0",5000,debug=True)
