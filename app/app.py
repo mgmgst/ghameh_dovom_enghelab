@@ -33,6 +33,7 @@ def add():
         name = request.form["name"]
         titlew = request.form["titlew"]
         message = request.form["message"]
+        writing_to_database(name,titlew,message)
         return redirect('index')
 
     else:
@@ -55,16 +56,22 @@ def check(username,password):
     if username == config.usernamein and password == config.passwordin:
         res = True
     return res               
-	
-if __name__ == "__main__":
+
+def writing_to_database(name,titlew,message):
+    
     conn = sqlite3.connect(config.DFP)
     cur = conn.cursor()
     cur.execute("DROP TABLE IF EXISTS works")
     cur.execute("""CREATE TABLE IF NOT EXISTS works (
-        id INTEGER PRIMARY KEY,
-        name TEXT,
+        name TEXT PRIMARY KEY,
         title TEXT,
         message TEXT);""")
+    conn.commit()    
+    qury = f'INSERT INTO works VALUES ("{name}","{titlew}","{message}");'
+    cur.execute(qury)
+    conn.commit()
     conn.close()
+
+if __name__ == "__main__":
     app.run("0.0.0.0",5000,debug=True)
     
