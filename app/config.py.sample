@@ -3,3 +3,4 @@
 usernamein = "{every username that you want}"
 passwordin = "{every password that you want}"
 
+DFP = "{path to sqlitefile wich is used}"

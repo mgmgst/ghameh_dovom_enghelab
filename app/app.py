@@ -1,5 +1,6 @@
 from flask import Flask , render_template,request , redirect,jsonify,flash,url_for
 import config
+import sqlite3
 app = Flask(__name__)
 
 @app.route("/ok")
@@ -32,10 +33,6 @@ def add():
         name = request.form["name"]
         titlew = request.form["titlew"]
         message = request.form["message"]
-        #print("[+] new work gotted ")
-        #print("[+] writer is : %s" % name)
-        #print("[+] work title is : %s" % titlew)
-        #print("[+] work message is : %s" % message)
         return redirect('index')
 
     else:
@@ -60,5 +57,14 @@ def check(username,password):
     return res               
 	
 if __name__ == "__main__":
+    conn = sqlite3.connect(config.DFP)
+    cur = conn.cursor()
+    cur.execute("DROP TABLE IF EXISTS works")
+    cur.execute("""CREATE TABLE IF NOT EXISTS works (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        title TEXT,
+        message TEXT);""")
+    conn.close()
     app.run("0.0.0.0",5000,debug=True)
     
