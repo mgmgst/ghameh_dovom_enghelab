@@ -1,7 +1,45 @@
-from flask import Flask , render_template,request , redirect,jsonify,flash,url_for
+from flask import Flask , render_template,request , redirect,jsonify,flash,url_for,Response, session
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 import config
 import sqlite3
+
 app = Flask(__name__)
+
+# config
+app.config.update(
+    SECRET_KEY = config.secret_key
+)
+
+# flask-login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+
+
+# silly user model
+class User(UserMixin):
+
+    def __init__(self, id):
+        self.id = id
+        
+    def __repr__(self):
+        return "%d" % (self.id)
+
+
+# create some users with ids 1 to 20       
+user = User(0)
+
+# somewhere to logout
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect('login')   
+    
+# callback to reload the user object        
+@login_manager.user_loader
+def load_user(userid):
+    return User(userid)    
 
 @app.route("/ok")
 def sys_check():
@@ -9,11 +47,12 @@ def sys_check():
     ret = {'status':'ok','message':'[+] flask server is running'}
     return jsonify(ret) , 200
 
-@app.route('/index')
+@app.route('/')
+@login_required
 def index():    
     return render_template('index.html')
 
-@app.route('/',methods=["GET", "POST"])
+@app.route('/login',methods=["GET", "POST"])
 def login():
     '''this function return login page'''
     error = None
@@ -21,6 +60,7 @@ def login():
         username = request.form["username"]
         password = request.form["Password"]
         if check(username,password):
+            login_user(user)
             return redirect(url_for('index'))
         else:
             error = '!!!یوزر نامعتبر!!!' 
@@ -28,6 +68,7 @@ def login():
     return render_template('login.html', error=error)
 
 @app.route('/add',methods=["GET", "POST"])
+@login_required
 def add():
     if request.method == 'POST':
         name = request.form["name"]
@@ -38,18 +79,6 @@ def add():
 
     else:
         return render_template('add.html')
-
-@app.route('/500')
-def e500_page():
-    return render_template('500.html')
-
-@app.route('/401')
-def e401_page():
-    return render_template('401.html')
-
-@app.route('/404')
-def e404_page():
-    return render_template('404.html') 
 
 def check(username,password):
     res = False
