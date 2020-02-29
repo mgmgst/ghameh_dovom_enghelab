@@ -1,13 +1,20 @@
-from flask import Flask , render_template,request , redirect,jsonify, url_for, Response, session
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 import config
 import sqlite3
+from flask import Flask , render_template,request , redirect,jsonify, url_for, Response, session
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
 
 # config
 app.config.update(
     SECRET_KEY = config.secret_key
+)
+
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
 )
 
 # flask-login
@@ -53,6 +60,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/login',methods=["GET", "POST"])
+@limiter.limit("5 per minute")
 def login():
     '''this function return login page'''
     error = None
