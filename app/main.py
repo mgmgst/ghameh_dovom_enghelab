@@ -1,7 +1,7 @@
 import config
 import sqlite3
 from flask import Flask , render_template,request , redirect,jsonify, url_for, Response, session
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
@@ -64,6 +64,8 @@ def index():
 def login():
     '''this function return login page'''
     error = None
+    if current_user.is_authenticated:
+        return redirect("/")
     if request.method == 'POST':
         username = request.form["username"]
         password = request.form["Password"]
