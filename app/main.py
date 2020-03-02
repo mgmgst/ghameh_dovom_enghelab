@@ -1,6 +1,6 @@
 import config
 import MySQLdb
-from flask import Flask , render_template,request , redirect,jsonify, url_for, Response, session
+from flask import Flask , render_template,request , redirect,jsonify, flash, url_for, Response, session
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -77,9 +77,10 @@ def login():
         password = request.form["Password"]
         if check(username,password):
             login_user(user)
+            flash('You were successfully logged in','info')
             return redirect(url_for('index'))
         else:
-            error = '!!!یوزر نامعتبر!!!' 
+            error = '!!!invalid user!!!' 
                
     return render_template('login.html', error=error)
 
