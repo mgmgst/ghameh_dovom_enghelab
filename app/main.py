@@ -103,8 +103,6 @@ def check(username,password):
         res = True
     return res               
 
-# TODO: make database open for ever for adding works from add page to it when i togel it my self close it
-
 def writing_to_database(name,titlew,message):
     
     db=MySQLdb.connect(host=config.MYSQL_HOST,
@@ -112,9 +110,9 @@ def writing_to_database(name,titlew,message):
                        passwd=config.MYSQL_PASS,
                        db=config.MYSQL_DB)
     cur = db.cursor()                   
-    cur.execute("DROP TABLE IF EXISTS works")
-    cur.execute("""CREATE TABLE works (name VARCHAR(100),title VARCHAR(100),message VARCHAR(250));""")
-    db.commit()    
+    #cur.execute("DROP TABLE IF EXISTS works")
+    #cur.execute("""CREATE TABLE works (name VARCHAR(100),title VARCHAR(100),message VARCHAR(250));""")
+    #db.commit()    
     qury = f'INSERT INTO works VALUES ("{name}","{titlew}","{message}");'
     cur.execute(qury)
     db.commit()
