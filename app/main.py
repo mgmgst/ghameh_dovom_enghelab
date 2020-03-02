@@ -96,6 +96,8 @@ def check(username,password):
         res = True
     return res               
 
+# TODO: make database open for ever for adding works from add page to it when i togel it my self close it
+
 def writing_to_database(name,titlew,message):
     
     db=MySQLdb.connect(host=config.MYSQL_HOST,
@@ -111,6 +113,8 @@ def writing_to_database(name,titlew,message):
     db.commit()
     db.close()
 
+# TODO: use it on project and show getted works on main page on table form
+
 def reading_from_database():
 
     db=MySQLdb.connect(host=config.MYSQL_HOST,
@@ -120,7 +124,7 @@ def reading_from_database():
     cur = db.cursor()
     cur.execute("SELECT * FROM works;")
     db.close()
-    return cur.fetchall()
+    return dict(cur.fetchall())
 
 if __name__ == "__main__":
     app.run("0.0.0.0",5000,debug=True)
