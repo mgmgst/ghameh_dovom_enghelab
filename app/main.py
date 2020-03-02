@@ -48,6 +48,11 @@ def logout():
 def load_user(userid):
     return User(userid)    
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
+
 @app.route("/ok")
 def sys_check():
     '''this function tell that falsk server is ok and running!!'''
