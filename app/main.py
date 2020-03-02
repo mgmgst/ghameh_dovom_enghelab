@@ -1,5 +1,5 @@
 import config
-import sqlite3
+import MySQLdb
 from flask import Flask , render_template,request , redirect,jsonify, url_for, Response, session
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 from flask_limiter import Limiter
@@ -98,18 +98,29 @@ def check(username,password):
 
 def writing_to_database(name,titlew,message):
     
-    conn = sqlite3.connect(config.DFP)
-    cur = conn.cursor()
+    db=MySQLdb.connect(host=config.MYSQL_HOST,
+                       user=config.MYSQL_USER,
+                       passwd=config.MYSQL_PASS,
+                       db=config.MYSQL_DB)
+    cur = db.cursor()                   
     cur.execute("DROP TABLE IF EXISTS works")
-    cur.execute("""CREATE TABLE IF NOT EXISTS works (
-        name TEXT PRIMARY KEY,
-        title TEXT,
-        message TEXT);""")
-    conn.commit()    
+    cur.execute("""CREATE TABLE works (name VARCHAR(100),title VARCHAR(100),message VARCHAR(250));""")
+    db.commit()    
     qury = f'INSERT INTO works VALUES ("{name}","{titlew}","{message}");'
     cur.execute(qury)
-    conn.commit()
-    conn.close()
+    db.commit()
+    db.close()
+
+def reading_from_database():
+
+    db=MySQLdb.connect(host=config.MYSQL_HOST,
+                       user=config.MYSQL_USER,
+                       passwd=config.MYSQL_PASS,
+                       db=config.MYSQL_DB)
+    cur = db.cursor()
+    cur.execute("SELECT * FROM works;")
+    db.close()
+    return cur.fetchall()
 
 if __name__ == "__main__":
     app.run("0.0.0.0",5000,debug=True)

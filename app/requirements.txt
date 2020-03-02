@@ -41,6 +41,8 @@ LiveWires==2.1
 lxml==4.5.0
 MarkupSafe==1.1.1
 mccabe==0.6.1
+mysql-connector-python==8.0.14
+mysqlclient==1.4.6
 numpy==1.18.1
 pandas==1.0.1
 parso==0.5.2

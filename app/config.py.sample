@@ -3,6 +3,11 @@
 usernamein = "{every username that you want}"
 passwordin = "{every password that you want}"
 
-DFP = "database.sqlite"
-
 secret_key = "{place your favrite secret key here}"
+
+# this is mysql datas :
+
+MYSQL_HOST = "localhost"
+MYSQL_USER = "myworks"
+MYSQL_PASS = "works"
+MYSQL_DB = "myworks"
