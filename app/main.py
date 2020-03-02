@@ -62,8 +62,14 @@ def sys_check():
 
 @app.route('/')
 @login_required
-def index():    
-    return render_template('index.html')
+def index(): 
+    all_work = reading_from_database()
+    works = []
+    for work in all_work:
+        name , title , message = work
+        works.append({"name":name,"title":title,"message":message})
+
+    return render_template('index.html', data = {"works" : works})
 
 @app.route('/login',methods=["GET", "POST"])
 @limiter.limit("10 per minute")
@@ -92,7 +98,7 @@ def add():
         titlew = request.form["titlew"]
         message = request.form["message"]
         writing_to_database(name,titlew,message)
-        return redirect('index')
+        return redirect('/')
 
     else:
         return render_template('add.html')
@@ -129,7 +135,7 @@ def reading_from_database():
     cur = db.cursor()
     cur.execute("SELECT * FROM works;")
     db.close()
-    return dict(cur.fetchall())
+    return cur.fetchall()
 
 if __name__ == "__main__":
     app.run("0.0.0.0",5000,debug=True)
