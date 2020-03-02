@@ -124,8 +124,6 @@ def writing_to_database(name,titlew,message):
     db.commit()
     db.close()
 
-# TODO: use it on project and show getted works on main page on table form
-
 def reading_from_database():
 
     db=MySQLdb.connect(host=config.MYSQL_HOST,
