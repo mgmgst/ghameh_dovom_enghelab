@@ -34,13 +34,13 @@ This project is done for ghameh_dovom_enghelab classes as a project series.
 
 2. buy for your `fandogh` service `1024mb` ram .
 
-3. make service for mysql and fill the blanks like this : name : `db` , pass : `test` , ram : `512mb` and got `phpmyadmin` GUI service for it.
+3. make service for mysql and fill the blanks like this : name : `db` , pass : `works` , ram : `512mb` and got `phpmyadmin` GUI service for it.
 
 4. goto `https://db-hologram.fandogh.cloud/server_databases.php` page for your MYSQL service.
 
-5. in this page create database by : Data_name : `smsmysql` , Codeing : `utf8mb4_bin` and push `create` button.
+5. in this page create database by : Data_name : `myworks` , Codeing : `utf8mb4_bin` and push `create` button.
 
-6. choose the `smsmysql` in databases list and in this database choose `SQL` and copy in that editor `CREATE TABLE messages (sender VARCHAR(100) , message VARCHAR(1024));` and push `go` button.
+6. choose the `smsmysql` in databases list and in this database choose `SQL` and copy in that editor `CREATE TABLE works (name VARCHAR(100),title VARCHAR(100),message VARCHAR(250));` and push `go` button.
 
 7. goto to `https://docs.fandogh.cloud/docs/getting-started.html` page for how to deploy project there.
 
