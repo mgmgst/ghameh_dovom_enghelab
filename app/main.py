@@ -111,10 +111,7 @@ def check(username,password):
 
 def writing_to_database(name,titlew,message):
     db = connect_to_database()
-    cur = db.cursor()                   
-    #cur.execute("DROP TABLE IF EXISTS works")
-    #cur.execute("""CREATE TABLE works (name VARCHAR(100),title VARCHAR(100),message VARCHAR(250));""")
-    #db.commit()    
+    cur = db.cursor()                       
     qury = f'INSERT INTO works VALUES ("{name}","{titlew}","{message}");'
     cur.execute(qury)
     db.commit()
