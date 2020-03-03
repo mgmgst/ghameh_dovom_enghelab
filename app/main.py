@@ -110,11 +110,7 @@ def check(username,password):
     return res               
 
 def writing_to_database(name,titlew,message):
-    
-    db=MySQLdb.connect(host=config.MYSQL_HOST,
-                       user=config.MYSQL_USER,
-                       passwd=config.MYSQL_PASS,
-                       db=config.MYSQL_DB)
+    db = connect_to_database()
     cur = db.cursor()                   
     #cur.execute("DROP TABLE IF EXISTS works")
     #cur.execute("""CREATE TABLE works (name VARCHAR(100),title VARCHAR(100),message VARCHAR(250));""")
@@ -125,15 +121,19 @@ def writing_to_database(name,titlew,message):
     db.close()
 
 def reading_from_database():
-
-    db=MySQLdb.connect(host=config.MYSQL_HOST,
-                       user=config.MYSQL_USER,
-                       passwd=config.MYSQL_PASS,
-                       db=config.MYSQL_DB)
+    db = connect_to_database()
     cur = db.cursor()
     cur.execute("SELECT * FROM works;")
     db.close()
     return cur.fetchall()
+
+def connect_to_database():
+    db = MySQLdb.connect(host=config.MYSQL_HOST,
+                       user=config.MYSQL_USER,
+                       passwd=config.MYSQL_PASS,
+                       db=config.MYSQL_DB,
+                       charset=config.charset)
+    return db
 
 if __name__ == "__main__":
     app.run("0.0.0.0",5000,debug=True)
